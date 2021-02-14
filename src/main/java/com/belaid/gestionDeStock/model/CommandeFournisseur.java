@@ -1,20 +1,18 @@
 package com.belaid.gestionDeStock.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "commandeFournisseur")
+@Table(name = "commandefournisseur")
 public class CommandeFournisseur extends AbstractEntity {
 
     @Column(name = "code")

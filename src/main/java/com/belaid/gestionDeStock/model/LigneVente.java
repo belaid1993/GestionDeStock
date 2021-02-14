@@ -1,22 +1,26 @@
 package com.belaid.gestionDeStock.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "ligneVente")
+@Table(name = "lignevente")
 public class LigneVente extends AbstractEntity {
 
-    @Column(name = "code")
-    private String code;
+    @ManyToOne
+    @JoinColumn(name = "idvente")
+    private Ventes vente;
+
+    @Column(name = "quantite")
+    private BigDecimal quantite;
+
+    @Column(name = "prixunitaire")
+    private BigDecimal prixUnitaire;
 }
