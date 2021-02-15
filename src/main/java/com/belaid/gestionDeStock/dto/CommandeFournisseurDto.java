@@ -10,6 +10,8 @@ import java.util.List;
 @Builder
 public class CommandeFournisseurDto {
 
+    private Integer id;
+
     private String code;
 
     private Instant dateCommande;

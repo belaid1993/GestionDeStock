@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 @Builder
 public class LigneCommandeFournisseurDto {
 
+    private Integer id;
+
     private ArticleDto article;
 
     private CommandeFournisseurDto commandeFournisseur;

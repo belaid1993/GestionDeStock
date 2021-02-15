@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
