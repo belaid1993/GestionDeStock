@@ -1,5 +1,7 @@
 package com.belaid.gestionDeStock.dto;
 
+import com.belaid.gestionDeStock.model.Utilisateur;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,5 +30,39 @@ public class UtilisateurDto {
 
     private EntrepriseDto entreprise;
 
+    @JsonIgnore
     private List<RolesDto> roles;
+
+    public UtilisateurDto fromEntity(Utilisateur utilisateur) {
+        if (utilisateur == null) {
+            return null;
+        }
+
+        return UtilisateurDto.builder()
+                .id(utilisateur.getId())
+                .nom(utilisateur.getNom())
+                .prenom(utilisateur.getPrenom())
+                .email(utilisateur.getEmail())
+                .dateDeNaissance(utilisateur.getDateDeNaissance())
+                .motDePasse(utilisateur.getMotDePasse())
+                .photo(utilisateur.getPhoto())
+                .build();
+    }
+
+    public Utilisateur toEntity(UtilisateurDto utilisateurDto) {
+        if (utilisateurDto == null) {
+            return null;
+        }
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setId(utilisateurDto.getId());
+        utilisateur.setNom(utilisateurDto.getNom());
+        utilisateur.setPrenom(utilisateurDto.getPrenom());
+        utilisateur.setEmail(utilisateurDto.getEmail());
+        utilisateur.setDateDeNaissance(utilisateurDto.getDateDeNaissance());
+        utilisateur.setMotDePasse(utilisateurDto.getMotDePasse());
+        utilisateur.setPhoto(utilisateurDto.getPhoto());
+
+        return utilisateur;
+    }
 }

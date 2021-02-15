@@ -1,6 +1,7 @@
 package com.belaid.gestionDeStock.dto;
 
 import com.belaid.gestionDeStock.model.Article;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
