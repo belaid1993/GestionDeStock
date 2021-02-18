@@ -20,7 +20,7 @@ public class CategoryDto {
     @JsonIgnore
     private List<AdresseDto> articles;
 
-    public CategoryDto fromEntity(Category category) {
+    public static CategoryDto fromEntity(Category category) {
         if (category == null) {
             return null;
             // TODO

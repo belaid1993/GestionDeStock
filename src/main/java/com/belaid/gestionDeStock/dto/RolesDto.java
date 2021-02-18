@@ -14,7 +14,7 @@ public class RolesDto {
 
     private UtilisateurDto utilisateur;
 
-    public RolesDto fromEntity(Roles roles) {
+    public static RolesDto fromEntity(Roles roles) {
         if (roles == null) {
             return null;
         }

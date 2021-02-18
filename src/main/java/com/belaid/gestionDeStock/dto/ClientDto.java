@@ -37,6 +37,7 @@ public class ClientDto {
                 .id(client.getId())
                 .nom(client.getNom())
                 .prenom(client.getPrenom())
+                .adresse(AdresseDto.fromEntity(client.getAdresse()))
                 .photo(client.getPhoto())
                 .mail(client.getMail())
                 .numTel(client.getNumTel())

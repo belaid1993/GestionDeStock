@@ -40,6 +40,7 @@ public class ArticleDto {
                 .tauxTva(article.getTauxTva())
                 .prixUnitaireTtc(article.getPrixUnitaireTtc())
                 .photo(article.getPhoto())
+                .category(CategoryDto.fromEntity(article.getCategory()))
                 .build();
     }
 

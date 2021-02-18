@@ -19,7 +19,7 @@ public class AdresseDto {
 
     private String pays;
 
-    public AdresseDto fromEntity(Adresse adresse) {
+    public static AdresseDto fromEntity(Adresse adresse) {
         if (adresse == null) {
             return null;
             //TODO
