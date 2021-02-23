@@ -21,6 +21,9 @@ public class Ventes extends AbstractEntity {
     @Column(name = "datevente")
     private Instant dateVente;
 
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
     @Column(name = "comentaire")
     private String comentaire;
 }

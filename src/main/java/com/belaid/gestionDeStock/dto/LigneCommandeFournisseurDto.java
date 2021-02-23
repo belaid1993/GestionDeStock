@@ -28,6 +28,8 @@ public class LigneCommandeFournisseurDto {
 
         return LigneCommandeFournisseurDto.builder()
                 .id(ligneCommandeFournisseur.getId())
+                .article(ArticleDto.fromEntity(ligneCommandeFournisseur.getArticle()))
+                .commandeFournisseur(CommandeFournisseurDto.fromEntity(ligneCommandeFournisseur.getCommandeFournisseur()))
                 .quantite(ligneCommandeFournisseur.getQuantite())
                 .prixUnitaire(ligneCommandeFournisseur.getPrixUnitaire())
                 .build();

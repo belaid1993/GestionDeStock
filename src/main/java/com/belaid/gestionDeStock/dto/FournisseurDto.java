@@ -28,7 +28,7 @@ public class FournisseurDto {
     @JsonIgnore
     private List<CommandeFournisseurDto> commandeFournisseurs;
 
-    public FournisseurDto fromEntity(Fournisseur fournisseur) {
+    public static FournisseurDto fromEntity(Fournisseur fournisseur) {
         if (fournisseur == null) {
             return null;
         }
@@ -37,6 +37,7 @@ public class FournisseurDto {
                 .id(fournisseur.getId())
                 .nom(fournisseur.getNom())
                 .prenom(fournisseur.getPrenom())
+                .adresse(AdresseDto.fromEntity(fournisseur.getAdresse()))
                 .photo(fournisseur.getPhoto())
                 .mail(fournisseur.getMail())
                 .numTel(fournisseur.getNumTel())

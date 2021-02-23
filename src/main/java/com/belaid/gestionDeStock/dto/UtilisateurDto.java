@@ -34,7 +34,7 @@ public class UtilisateurDto {
     @JsonIgnore
     private List<RolesDto> roles;
 
-    public UtilisateurDto fromEntity(Utilisateur utilisateur) {
+    public static UtilisateurDto fromEntity(Utilisateur utilisateur) {
         if (utilisateur == null) {
             return null;
         }

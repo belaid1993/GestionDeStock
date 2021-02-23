@@ -27,6 +27,8 @@ public class LigneCommandeClientDto {
 
         return LigneCommandeClientDto.builder()
                 .id(ligneCommandeClient.getId())
+                .article(ArticleDto.fromEntity(ligneCommandeClient.getArticle()))
+                .commandeClient(CommandeClientDto.fromEntity(ligneCommandeClient.getCommandeClient()))
                 .quantite(ligneCommandeClient.getQuantite())
                 .prixUnitaire(ligneCommandeClient.getPrixUnitaire())
                 .build();

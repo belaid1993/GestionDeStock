@@ -42,6 +42,7 @@ public class EntrepriseDto {
                 .id(entreprise.getId())
                 .nom(entreprise.getNom())
                 .description(entreprise.getDescription())
+                .adresse(AdresseDto.fromEntity(entreprise.getAdresse()))
                 .codeFiscal(entreprise.getCodeFiscal())
                 .photo(entreprise.getPhoto())
                 .email(entreprise.getEmail())

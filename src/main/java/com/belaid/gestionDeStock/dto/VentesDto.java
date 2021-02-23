@@ -18,7 +18,7 @@ public class VentesDto {
 
     private String comentaire;
 
-    public VentesDto fromEntity(Ventes ventes){
+    public static VentesDto fromEntity(Ventes ventes){
         if(ventes == null){
             return null;
         }
