@@ -1,7 +1,10 @@
 package com.belaid.gestionDeStock.exception;
 
+import lombok.Getter;
+
 public class EntityNotFoundException extends RuntimeException {
 
+    @Getter
     private ErrorCodes errorCodes;
 
     public EntityNotFoundException(String message) {
