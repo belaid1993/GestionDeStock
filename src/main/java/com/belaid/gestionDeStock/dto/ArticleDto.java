@@ -44,7 +44,7 @@ public class ArticleDto {
                 .build();
     }
 
-    public Article toEntity(ArticleDto articleDto) {
+    public static Article toEntity(ArticleDto articleDto) {
         if (articleDto == null) {
             return null;
         }
