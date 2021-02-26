@@ -1,7 +1,9 @@
 package com.belaid.gestionDeStock.dto;
 
 
+import com.belaid.gestionDeStock.model.Article;
 import com.belaid.gestionDeStock.model.LigneVente;
+import com.belaid.gestionDeStock.model.Ventes;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,7 +21,9 @@ public class LigneVenteDto {
 
     private BigDecimal prixUnitaire;
 
-    public LigneVenteDto fromEntity(LigneVente ligneVente) {
+    private Article article;
+
+    public static LigneVenteDto fromEntity(LigneVente ligneVente) {
         if (ligneVente == null) {
             return null;
         }
@@ -31,6 +35,7 @@ public class LigneVenteDto {
                 .prixUnitaire(ligneVente.getPrixUnitaire())
                 .build();
     }
+
 
     public LigneVente toEntity(LigneVenteDto ligneVenteDto) {
         if (ligneVenteDto == null) {

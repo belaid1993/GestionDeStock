@@ -11,9 +11,11 @@ import com.belaid.gestionDeStock.validator.ArticleValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -49,22 +51,39 @@ public class ArticleServiceImpl implements ArticleService {
 
         ArticleDto dto = ArticleDto.fromEntity(article.get());
 
-        return Optional.of(dto).orElseThrow(() -> new EntityNotFoundException("Aucun article avec ID " + id + " n'ete trouve dans BDD",
+        return Optional.of(dto).orElseThrow(() -> new EntityNotFoundException("Aucun article avec ID " + id + " n'ete trouver dans BDD",
                 ErrorCodes.ARTICLE_NOT_FOUND));
     }
 
     @Override
     public ArticleDto findByCodeArticle(String codeArticle) {
-        return null;
+        if (!StringUtils.hasLength(codeArticle)) {
+            log.error("Article code est null");
+            return null;
+        }
+
+        Optional<Article> article = articleRepository.findArticleByCodeArticle(codeArticle);
+
+        ArticleDto dto = ArticleDto.fromEntity(article.get());
+
+        return Optional.of(dto).orElseThrow(() -> new EntityNotFoundException("Aucun article avec code " + codeArticle + " n'ete trouver dans BDD"
+                , ErrorCodes.ARTICLE_NOT_FOUND));
     }
 
     @Override
     public List<ArticleDto> findAll() {
-        return null;
+        return articleRepository.findAll().stream()
+                .map(ArticleDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void delete(Integer id) {
+        if (id == null) {
+            log.error("Article ID est null");
+            return;
+        }
+        articleRepository.deleteById(id);
 
     }
 }

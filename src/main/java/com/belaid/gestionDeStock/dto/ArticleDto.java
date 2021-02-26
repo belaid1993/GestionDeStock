@@ -1,11 +1,13 @@
 package com.belaid.gestionDeStock.dto;
 
-import com.belaid.gestionDeStock.model.Article;
+import com.belaid.gestionDeStock.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Builder
 @Data
@@ -26,6 +28,14 @@ public class ArticleDto {
     private String photo;
 
     private CategoryDto category;
+
+    private List<LigneVente> ligneVentes;
+
+    private List<LigneCommandeClient> ligneCommandeClients;
+
+    private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
+
+    private List<MvtStk> mvtStks;
 
     public static ArticleDto fromEntity(Article article) {
         if (article == null) {
