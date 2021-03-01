@@ -32,7 +32,7 @@ public class CategoryDto {
                 .build();
     }
 
-    public Category toEntity(CategoryDto categoryDto) {
+    public static Category toEntity(CategoryDto categoryDto) {
         if (categoryDto == null) {
             return null;
             // TODO

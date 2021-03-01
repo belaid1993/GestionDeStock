@@ -44,7 +44,7 @@ public class FournisseurDto {
                 .build();
     }
 
-    public Fournisseur toEntity(FournisseurDto fournisseurDto) {
+    public static Fournisseur toEntity(FournisseurDto fournisseurDto) {
         if (fournisseurDto == null) {
             return null;
         }
