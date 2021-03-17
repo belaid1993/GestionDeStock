@@ -33,6 +33,8 @@ public class UtilisateurDto {
 
     private List<RolesDto> roles;
 
+    private Integer idEntreprise;
+
     public static UtilisateurDto fromEntity(Utilisateur utilisateur) {
         if (utilisateur == null) {
             return null;
@@ -54,6 +56,7 @@ public class UtilisateurDto {
                                         .map(RolesDto::fromEntity)
                                         .collect(Collectors.toList()) : null
                 )
+                .idEntreprise(utilisateur.getIdEntreprise())
                 .build();
     }
 
@@ -70,6 +73,7 @@ public class UtilisateurDto {
         utilisateur.setDateDeNaissance(utilisateurDto.getDateDeNaissance());
         utilisateur.setMotDePasse(utilisateurDto.getMotDePasse());
         utilisateur.setPhoto(utilisateurDto.getPhoto());
+        utilisateur.setIdEntreprise(utilisateurDto.getIdEntreprise());
 
         return utilisateur;
     }

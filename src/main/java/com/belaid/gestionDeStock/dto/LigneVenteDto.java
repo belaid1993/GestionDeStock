@@ -23,6 +23,8 @@ public class LigneVenteDto {
 
     private Article article;
 
+    private Integer idEntreprise;
+
     public static LigneVenteDto fromEntity(LigneVente ligneVente) {
         if (ligneVente == null) {
             return null;
@@ -33,6 +35,7 @@ public class LigneVenteDto {
                 .vente(VentesDto.fromEntity(ligneVente.getVente()))
                 .quantite(ligneVente.getQuantite())
                 .prixUnitaire(ligneVente.getPrixUnitaire())
+                .idEntreprise(ligneVente.getIdEntreprise())
                 .build();
     }
 
@@ -46,6 +49,7 @@ public class LigneVenteDto {
         ligneVente.setId(ligneVenteDto.getId());
         ligneVente.setQuantite(ligneVenteDto.getQuantite());
         ligneVente.setPrixUnitaire(ligneVenteDto.getPrixUnitaire());
+        ligneVente.setIdEntreprise(ligneVenteDto.getIdEntreprise());
 
         return ligneVente;
     }

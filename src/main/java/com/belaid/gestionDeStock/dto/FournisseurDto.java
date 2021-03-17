@@ -25,6 +25,8 @@ public class FournisseurDto {
 
     private String numTel;
 
+    private Integer idEntreprise;
+
     @JsonIgnore
     private List<CommandeFournisseurDto> commandeFournisseurs;
 
@@ -41,6 +43,7 @@ public class FournisseurDto {
                 .photo(fournisseur.getPhoto())
                 .mail(fournisseur.getMail())
                 .numTel(fournisseur.getNumTel())
+                .idEntreprise(fournisseur.getIdEntreprise())
                 .build();
     }
 
@@ -56,6 +59,7 @@ public class FournisseurDto {
         fournisseur.setPhoto(fournisseurDto.getPhoto());
         fournisseur.setMail(fournisseurDto.getMail());
         fournisseur.setNumTel(fournisseurDto.getNumTel());
+        fournisseur.setIdEntreprise(fournisseurDto.getIdEntreprise());
         return fournisseur;
     }
 

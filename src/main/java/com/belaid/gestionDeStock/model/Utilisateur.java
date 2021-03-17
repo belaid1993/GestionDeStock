@@ -40,6 +40,9 @@ public class Utilisateur extends AbstractEntity {
     @JoinColumn(name = "identreprise")
     private Entreprise entreprise;
 
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
     @OneToMany(mappedBy = "utilisateur")
     private List<Roles> roles;
 }

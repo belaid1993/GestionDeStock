@@ -27,6 +27,8 @@ public class ArticleDto {
 
     private String photo;
 
+    private Integer idEntreprise;
+
     private CategoryDto category;
 
     private List<LigneVente> ligneVentes;
@@ -50,6 +52,7 @@ public class ArticleDto {
                 .tauxTva(article.getTauxTva())
                 .prixUnitaireTtc(article.getPrixUnitaireTtc())
                 .photo(article.getPhoto())
+                .idEntreprise(article.getIdEntreprise())
                 .category(CategoryDto.fromEntity(article.getCategory()))
                 .build();
     }
@@ -67,6 +70,7 @@ public class ArticleDto {
         article.setTauxTva(articleDto.getTauxTva());
         article.setPrixUnitaireTtc(articleDto.getPrixUnitaireTtc());
         article.setPhoto(articleDto.getPhoto());
+        article.setIdEntreprise(articleDto.getIdEntreprise());
         return article;
 
     }

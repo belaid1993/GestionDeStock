@@ -1,5 +1,6 @@
 package com.belaid.gestionDeStock.dto;
 
+import com.belaid.gestionDeStock.model.Client;
 import com.belaid.gestionDeStock.model.CommandeClient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
@@ -20,7 +21,8 @@ public class CommandeClientDto {
 
     private ClientDto client;
 
-    @JsonIgnore
+    private Integer idEntreprise;
+
     private List<LigneCommandeClientDto> ligneCommandeClients;
 
     public static CommandeClientDto fromEntity(CommandeClient commandeClient) {
@@ -33,10 +35,11 @@ public class CommandeClientDto {
                 .code(commandeClient.getCode())
                 .dateCommande(commandeClient.getDateCommande())
                 .client(ClientDto.fromEntity(commandeClient.getClient()))
+                .idEntreprise(commandeClient.getIdEntreprise())
                 .build();
     }
 
-    public CommandeClient toEntity(CommandeClientDto commandeClientDto) {
+    public static CommandeClient toEntity(CommandeClientDto commandeClientDto) {
         if (commandeClientDto == null) {
             return null;
         }
@@ -45,6 +48,7 @@ public class CommandeClientDto {
         commandeClient.setId(commandeClientDto.getId());
         commandeClient.setCode(commandeClientDto.getCode());
         commandeClient.setDateCommande(commandeClientDto.getDateCommande());
+        commandeClient.setIdEntreprise(commandeClientDto.getIdEntreprise());
 
         return commandeClient;
 

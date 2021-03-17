@@ -14,6 +14,8 @@ public class RolesDto {
 
     private UtilisateurDto utilisateur;
 
+    private Integer idEntreprise;
+
     public static RolesDto fromEntity(Roles roles) {
         if (roles == null) {
             return null;
@@ -23,6 +25,7 @@ public class RolesDto {
                 .id(roles.getId())
                 .roleName(roles.getRoleName())
                 .utilisateur(UtilisateurDto.fromEntity(roles.getUtilisateur()))
+                .idEntreprise(roles.getIdEntreprise())
                 .build();
     }
 
@@ -34,6 +37,7 @@ public class RolesDto {
         Roles roles = new Roles();
         roles.setId(rolesDto.getId());
         roles.setRoleName(rolesDto.getRoleName());
+        roles.setIdEntreprise(rolesDto.getIdEntreprise());
 
         return roles;
     }
