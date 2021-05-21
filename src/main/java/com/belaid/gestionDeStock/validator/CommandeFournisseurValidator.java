@@ -1,14 +1,14 @@
 package com.belaid.gestionDeStock.validator;
 
-import com.belaid.gestionDeStock.dto.CommandeClientDto;
+import com.belaid.gestionDeStock.dto.CommandeFournisseurDto;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandeClientValidator {
+public class CommandeFournisseurValidator {
 
-    public static List<String> validate(CommandeClientDto dto) {
+    public static List<String> validate(CommandeFournisseurDto dto) {
         List<String> errors = new ArrayList<>();
         if (dto == null) {
             errors.add("Veuillez renseigner le code de la commande");
@@ -27,8 +27,8 @@ public class CommandeClientValidator {
         if (!StringUtils.hasLength(dto.getEtatCommande().toString())) {
             errors.add("Veuillez renseigner l'etat de la commande");
         }
-        if (dto.getClient() == null || dto.getClient().getId() == null) {
-            errors.add("Veuillez renseigner le client");
+        if (dto.getFournisseur() == null || dto.getFournisseur().getId() == null) {
+            errors.add("Veuillez renseigner le fournisseur");
         }
 
         return errors;

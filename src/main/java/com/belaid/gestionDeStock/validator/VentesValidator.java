@@ -1,34 +1,26 @@
 package com.belaid.gestionDeStock.validator;
 
-import com.belaid.gestionDeStock.dto.CommandeClientDto;
+import com.belaid.gestionDeStock.dto.VentesDto;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandeClientValidator {
+public class VentesValidator {
 
-    public static List<String> validate(CommandeClientDto dto) {
+    public static List<String> validate(VentesDto dto) {
         List<String> errors = new ArrayList<>();
         if (dto == null) {
             errors.add("Veuillez renseigner le code de la commande");
             errors.add("Veuillez renseigner la date de la commande");
-            errors.add("Veuillez renseigner l'etat de la commande");
-            errors.add("Veuillez renseigner le client");
             return errors;
         }
 
         if (!StringUtils.hasLength(dto.getCode())) {
             errors.add("Veuillez renseigner le code de la commande");
         }
-        if (dto.getDateCommande() == null) {
+        if (dto.getDateVente() == null) {
             errors.add("Veuillez renseigner la date de la commande");
-        }
-        if (!StringUtils.hasLength(dto.getEtatCommande().toString())) {
-            errors.add("Veuillez renseigner l'etat de la commande");
-        }
-        if (dto.getClient() == null || dto.getClient().getId() == null) {
-            errors.add("Veuillez renseigner le client");
         }
 
         return errors;

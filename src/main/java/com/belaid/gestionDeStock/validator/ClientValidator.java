@@ -8,33 +8,32 @@ import java.util.List;
 
 public class ClientValidator {
 
-    public static List<String> validate(ClientDto clientDto) {
+    public static List<String> validate(ClientDto dto) {
         List<String> errors = new ArrayList<>();
 
-        if (clientDto == null) {
-            errors.add("Veuillez renseigner le nom de client");
-            errors.add("Veuillez renseigner le prenom de client");
-            errors.add("Veuillez renseigner l'email de client");
-            errors.add("Veuillez renseigner le num de Tel de client");
+        if (dto == null) {
+            errors.add("Veuillez renseigner le nom du client");
+            errors.add("Veuillez renseigner le prenom du client");
+            errors.add("Veuillez renseigner le Mail du client");
+            errors.add("Veuillez renseigner le numero de telephone du client");
+            errors.addAll(AdresseValidator.validate(null));
             return errors;
         }
 
-        if (!StringUtils.hasLength(clientDto.getNom())) {
-            errors.add("Veuillez renseigner le nom de client");
+        if (!StringUtils.hasLength(dto.getNom())) {
+            errors.add("Veuillez renseigner le nom du client");
         }
-
-        if (!StringUtils.hasLength(clientDto.getPrenom())) {
-            errors.add("Veuillez renseigner le prenom de client");
+        if (!StringUtils.hasLength(dto.getPrenom())) {
+            errors.add("Veuillez renseigner le prenom du client");
         }
-
-        if (!StringUtils.hasLength(clientDto.getMail())) {
-            errors.add("Veuillez renseigner l'email de client");
+        if (!StringUtils.hasLength(dto.getMail())) {
+            errors.add("Veuillez renseigner le Mail du client");
         }
-
-        if (!StringUtils.hasLength(clientDto.getNumTel())) {
-            errors.add("Veuillez renseigner le num de Tel de client");
+        if (!StringUtils.hasLength(dto.getNumTel())) {
+            errors.add("Veuillez renseigner le numero de telephone du client");
         }
-
+        errors.addAll(AdresseValidator.validate(dto.getAdresse()));
         return errors;
     }
+
 }
