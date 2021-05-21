@@ -56,6 +56,7 @@ public class FournisseurDto {
         fournisseur.setId(fournisseurDto.getId());
         fournisseur.setNom(fournisseurDto.getNom());
         fournisseur.setPrenom(fournisseurDto.getPrenom());
+        fournisseur.setAdresse(AdresseDto.toEntity(fournisseurDto.getAdresse()));
         fournisseur.setPhoto(fournisseurDto.getPhoto());
         fournisseur.setMail(fournisseurDto.getMail());
         fournisseur.setNumTel(fournisseurDto.getNumTel());

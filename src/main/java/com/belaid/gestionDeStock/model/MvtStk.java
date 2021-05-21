@@ -25,6 +25,7 @@ public class MvtStk extends AbstractEntity {
     private Article article;
 
     @Column(name = "typemvt")
+    @Enumerated(EnumType.STRING)
     private TypeMvt typeMvt;
 
     @Column(name = "identreprise")

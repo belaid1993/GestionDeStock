@@ -1,5 +1,6 @@
 package com.belaid.gestionDeStock.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class Utilisateur extends AbstractEntity {
     private Instant dateDeNaissance;
 
     @Column(name = "motdepasse")
-    private String motDePasse;
+    private String moteDePasse;
 
     @Embedded
     private Adresse adresse;
@@ -40,9 +41,8 @@ public class Utilisateur extends AbstractEntity {
     @JoinColumn(name = "identreprise")
     private Entreprise entreprise;
 
-    @Column(name = "identreprise")
-    private Integer idEntreprise;
 
-    @OneToMany(mappedBy = "utilisateur")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "utilisateur")
+    @JsonIgnore
     private List<Roles> roles;
 }

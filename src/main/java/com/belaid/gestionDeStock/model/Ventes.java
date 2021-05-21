@@ -4,8 +4,10 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,9 +23,12 @@ public class Ventes extends AbstractEntity {
     @Column(name = "datevente")
     private Instant dateVente;
 
+    @Column(name = "commentaire")
+    private String commentaire;
+
     @Column(name = "identreprise")
     private Integer idEntreprise;
 
-    @Column(name = "comentaire")
-    private String comentaire;
+    @OneToMany(mappedBy = "vente")
+    private List<LigneVente> ligneVentes;
 }

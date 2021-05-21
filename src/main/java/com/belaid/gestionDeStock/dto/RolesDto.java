@@ -24,8 +24,6 @@ public class RolesDto {
         return RolesDto.builder()
                 .id(roles.getId())
                 .roleName(roles.getRoleName())
-                .utilisateur(UtilisateurDto.fromEntity(roles.getUtilisateur()))
-                .idEntreprise(roles.getIdEntreprise())
                 .build();
     }
 
@@ -37,7 +35,7 @@ public class RolesDto {
         Roles roles = new Roles();
         roles.setId(rolesDto.getId());
         roles.setRoleName(rolesDto.getRoleName());
-        roles.setIdEntreprise(rolesDto.getIdEntreprise());
+        roles.setUtilisateur(UtilisateurDto.toEntity(rolesDto.getUtilisateur()));
 
         return roles;
     }

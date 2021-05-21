@@ -50,4 +50,5 @@ public class Article extends AbstractEntity {
 
     @OneToMany(mappedBy = "article")
     private List<MvtStk> mvtStks;
+
 }

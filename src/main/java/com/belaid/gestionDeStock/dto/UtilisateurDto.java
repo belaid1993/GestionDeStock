@@ -23,7 +23,7 @@ public class UtilisateurDto {
 
     private Instant dateDeNaissance;
 
-    private String motDePasse;
+    private String moteDePasse;
 
     private AdresseDto adresse;
 
@@ -32,8 +32,6 @@ public class UtilisateurDto {
     private EntrepriseDto entreprise;
 
     private List<RolesDto> roles;
-
-    private Integer idEntreprise;
 
     public static UtilisateurDto fromEntity(Utilisateur utilisateur) {
         if (utilisateur == null) {
@@ -46,7 +44,7 @@ public class UtilisateurDto {
                 .prenom(utilisateur.getPrenom())
                 .email(utilisateur.getEmail())
                 .dateDeNaissance(utilisateur.getDateDeNaissance())
-                .motDePasse(utilisateur.getMotDePasse())
+                .moteDePasse(utilisateur.getMoteDePasse())
                 .adresse(AdresseDto.fromEntity(utilisateur.getAdresse()))
                 .photo(utilisateur.getPhoto())
                 .entreprise(EntrepriseDto.fromEntity(utilisateur.getEntreprise()))
@@ -56,7 +54,6 @@ public class UtilisateurDto {
                                         .map(RolesDto::fromEntity)
                                         .collect(Collectors.toList()) : null
                 )
-                .idEntreprise(utilisateur.getIdEntreprise())
                 .build();
     }
 
@@ -71,9 +68,11 @@ public class UtilisateurDto {
         utilisateur.setPrenom(utilisateurDto.getPrenom());
         utilisateur.setEmail(utilisateurDto.getEmail());
         utilisateur.setDateDeNaissance(utilisateurDto.getDateDeNaissance());
-        utilisateur.setMotDePasse(utilisateurDto.getMotDePasse());
+        utilisateur.setMoteDePasse(utilisateurDto.getMoteDePasse());
         utilisateur.setPhoto(utilisateurDto.getPhoto());
-        utilisateur.setIdEntreprise(utilisateurDto.getIdEntreprise());
+        utilisateur.setAdresse(AdresseDto.toEntity(utilisateurDto.getAdresse()));
+        utilisateur.setEntreprise(EntrepriseDto.toEntity(utilisateurDto.getEntreprise()));
+
 
         return utilisateur;
     }

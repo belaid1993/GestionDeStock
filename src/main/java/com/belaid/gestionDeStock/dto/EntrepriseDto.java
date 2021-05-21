@@ -51,7 +51,7 @@ public class EntrepriseDto {
                 .build();
     }
 
-    public Entreprise toEntity(EntrepriseDto entrepriseDto) {
+    public static Entreprise toEntity(EntrepriseDto entrepriseDto) {
         if (entrepriseDto == null) {
             return null;
         }
@@ -60,6 +60,7 @@ public class EntrepriseDto {
         entreprise.setId(entrepriseDto.getId());
         entreprise.setNom(entrepriseDto.getNom());
         entreprise.setDescription(entrepriseDto.getDescription());
+        entreprise.setAdresse(AdresseDto.toEntity(entrepriseDto.getAdresse()));
         entreprise.setCodeFiscal(entrepriseDto.getCodeFiscal());
         entreprise.setPhoto(entrepriseDto.getPhoto());
         entreprise.setEmail(entrepriseDto.getEmail());

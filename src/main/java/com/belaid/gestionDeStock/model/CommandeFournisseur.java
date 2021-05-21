@@ -20,6 +20,7 @@ public class CommandeFournisseur extends AbstractEntity {
     @Column(name = "datecommande")
     private Instant dateCommande;
 
+
     @Column(name = "identreprise")
     private Integer idEntreprise;
 
@@ -29,4 +30,5 @@ public class CommandeFournisseur extends AbstractEntity {
 
     @OneToMany(mappedBy = "commandeFournisseur")
     private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
+
 }

@@ -20,7 +20,7 @@ public class Entreprise extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
-   @Embedded
+    @Embedded
     private Adresse adresse;
 
     @Column(name = "codefiscal")

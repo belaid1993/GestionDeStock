@@ -48,6 +48,7 @@ public class CommandeFournisseurDto {
         commandeFournisseur.setCode(commandeFournisseurDto.getCode());
         commandeFournisseur.setIdEntreprise(commandeFournisseur.getIdEntreprise());
         commandeFournisseur.setDateCommande(commandeFournisseurDto.getDateCommande());
+        commandeFournisseur.setFournisseur(FournisseurDto.toEntity(commandeFournisseurDto.getFournisseur()));
 
         return commandeFournisseur;
     }
