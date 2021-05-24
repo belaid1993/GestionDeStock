@@ -38,7 +38,7 @@ public class CommandeFournisseurDto {
                 .build();
     }
 
-    public CommandeFournisseur toEntity(CommandeFournisseurDto commandeFournisseurDto) {
+    public static CommandeFournisseur toEntity(CommandeFournisseurDto commandeFournisseurDto) {
         if (commandeFournisseurDto == null) {
             return null;
         }

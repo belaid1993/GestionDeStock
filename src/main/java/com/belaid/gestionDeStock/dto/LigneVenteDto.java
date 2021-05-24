@@ -40,7 +40,7 @@ public class LigneVenteDto {
     }
 
 
-    public LigneVente toEntity(LigneVenteDto ligneVenteDto) {
+    public static LigneVente toEntity(LigneVenteDto ligneVenteDto) {
         if (ligneVenteDto == null) {
             return null;
         }

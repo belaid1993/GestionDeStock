@@ -30,7 +30,7 @@ public class UtilisateurValidator {
         if (!StringUtils.hasLength(utilisateurDto.getEmail())) {
             errors.add("Veuillez renseigner l'email d'utilisateur");
         }
-        if (!StringUtils.hasLength(utilisateurDto.getMotDePasse())) {
+        if (!StringUtils.hasLength(utilisateurDto.getMoteDePasse())) {
             errors.add("Veuillez renseigner le mot de passe d'utilisateur");
         }
         if (utilisateurDto.getDateDeNaissance() == null) {
