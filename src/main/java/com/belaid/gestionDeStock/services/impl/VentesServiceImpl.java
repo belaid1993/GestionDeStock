@@ -89,7 +89,7 @@ public class VentesServiceImpl implements VentesService {
             log.error("Ventes CODE is NULL");
             return null;
         }
-        return ventesRepository.findVentesByByCode(code)
+        return ventesRepository.findVentesByCode(code)
                 .map(VentesDto::fromEntity)
                 .orElseThrow(() -> new EntityNotFoundException("Aucun ventes n'a ete trouver avec l'CODE " + code, ErrorCodes.VENTE_NOT_FOUND));
     }
