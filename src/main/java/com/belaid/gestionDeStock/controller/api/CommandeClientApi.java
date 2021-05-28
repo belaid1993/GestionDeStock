@@ -3,9 +3,7 @@ package com.belaid.gestionDeStock.controller.api;
 import com.belaid.gestionDeStock.dto.CommandeClientDto;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,17 +13,17 @@ import static com.belaid.gestionDeStock.utils.Constants.APP_ROOT;
 public interface CommandeClientApi {
 
     @PostMapping(APP_ROOT + "/commandesclients/create")
-    ResponseEntity<CommandeClientDto> save(CommandeClientDto dto);
+    ResponseEntity<CommandeClientDto> save(@RequestBody CommandeClientDto dto);
 
     @GetMapping(APP_ROOT + "/commandesclients/{idCommandeClient}")
-    ResponseEntity<CommandeClientDto> findById(Integer id);
+    ResponseEntity<CommandeClientDto> findById(@PathVariable("idCommandeClient") Integer id);
 
     @GetMapping(APP_ROOT + "/commandesclients/filter/{codeCommandeClient}")
-    ResponseEntity<CommandeClientDto> findByCode(String code);
+    ResponseEntity<CommandeClientDto> findByCode(@PathVariable("codeCommandeClient") String code);
 
     @GetMapping(APP_ROOT + "/commandesclients/all")
     ResponseEntity<List<CommandeClientDto>> findAll();
 
     @DeleteMapping(APP_ROOT + "/commandesclients/delete/{idCommandeClient}")
-    ResponseEntity delete(Integer id);
+    ResponseEntity delete(@PathVariable("idCommandeClient") Integer id);
 }

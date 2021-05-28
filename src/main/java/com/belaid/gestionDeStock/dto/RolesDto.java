@@ -27,7 +27,7 @@ public class RolesDto {
                 .build();
     }
 
-    public Roles toEntity(RolesDto rolesDto) {
+    public static Roles toEntity(RolesDto rolesDto) {
         if (rolesDto == null) {
             return null;
         }
