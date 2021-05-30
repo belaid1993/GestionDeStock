@@ -29,6 +29,11 @@ public class CategoryController implements CategoryApi {
     }
 
     @Override
+    public CategoryDto findByCode(String codeCategory) {
+        return categoryService.findByCode(codeCategory);
+    }
+
+    @Override
     public List<CategoryDto> findAll() {
         return categoryService.findAll();
     }

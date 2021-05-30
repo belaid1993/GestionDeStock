@@ -13,6 +13,8 @@ spring:
       ddl-auto: update
     properties:
       hibenate:
+        ejb:
+          interceptor: com.belaid.gestionDeStock.interceptor.Interceptor
         dialect: org.hibernate.dialect.MySQL5Dialect
 
 server:
