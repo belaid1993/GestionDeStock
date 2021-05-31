@@ -8,7 +8,7 @@ public class Interceptor extends EmptyInterceptor {
     @Override
     public String onPrepareStatement(String sql) {
         if (StringUtils.hasLength(sql) && sql.toLowerCase().startsWith("select")) {
-            if (sql.contains("where")) {
+            if (sql.toLowerCase().contains("where")) {
                 sql = sql + "and idEntreprise = 1";
             } else {
                 sql = sql + "where idEntreprise = 1";
