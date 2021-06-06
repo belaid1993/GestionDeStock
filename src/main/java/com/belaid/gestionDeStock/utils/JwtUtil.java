@@ -43,7 +43,7 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(ExtendedUser userDetails) {
+    /*public String generateToken(ExtendedUser userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails);
     }
@@ -56,7 +56,7 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .claim("idEntreprise", userDetails.getIdEntreprise().toString())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
-    }
+    }*/
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
