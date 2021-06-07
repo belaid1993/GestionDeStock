@@ -74,7 +74,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
     }
 
     private String generateRandomPassword() {
-        return "som3R@nd0mP@$$word";
+        return "123456789";
     }
 
     @Override

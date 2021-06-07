@@ -2,6 +2,7 @@ package com.belaid.gestionDeStock.controller;
 
 import com.belaid.gestionDeStock.dto.auth.AuthenticationRequest;
 import com.belaid.gestionDeStock.dto.auth.AuthenticationResponse;
+import com.belaid.gestionDeStock.model.auth.ExtendedUser;
 import com.belaid.gestionDeStock.services.auth.ApplicationUserDetailsService;
 import com.belaid.gestionDeStock.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ public class AuthenticationController {
 
         final UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(request.getLogin());
 
-        final String jwt = jwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken((ExtendedUser) userDetails);
 
-        return ResponseEntity.ok(AuthenticationResponse.builder().accessToken("dummy_access_token").build());
+        return ResponseEntity.ok(AuthenticationResponse.builder().accessToken(jwt).build());
     }
 
 }
