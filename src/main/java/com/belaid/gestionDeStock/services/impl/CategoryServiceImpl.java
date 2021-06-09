@@ -43,15 +43,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto findById(Integer id) {
         if (id == null) {
-            log.error("Category ID est null");
+            log.error("Category ID is null");
             return null;
         }
-
-        Optional<Category> category = categoryRepository.findById(id);
-
-        CategoryDto dto = CategoryDto.fromEntity(category.get());
-
-        return Optional.of(dto).orElseThrow(() -> new EntityNotFoundException("Aucun category avec ID " + id + " n'ete trouver dans BDD", ErrorCodes.CATEGORY_NOT_FOUND));
+        return categoryRepository.findById(id)
+                .map(CategoryDto::fromEntity)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Aucune category avec l'ID = " + id + " n' ete trouve dans la BDD",
+                        ErrorCodes.CATEGORY_NOT_FOUND)
+                );
     }
 
     @Override
