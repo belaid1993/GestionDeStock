@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.belaid.gestionDeStock.utils.Constants.APP_ROOT;
@@ -18,6 +19,9 @@ public interface CommandeClientApi {
 
     @PatchMapping(APP_ROOT + "/commandesclients/update/{idCommande}/{etatCommande}")
     ResponseEntity<CommandeClientDto> updateEtatCommande(@PathVariable("idCommande") Integer idCommande, @PathVariable("etatCommande") EtatCommande etatCommande);
+
+    @PatchMapping(APP_ROOT + "/commandesclients/update/{idCommande}/{idLigneCommande}/{quantite}")
+    ResponseEntity<CommandeClientDto> updateQuantiteCommande(@PathVariable("idCommande") Integer idCommande, @PathVariable("idLigneCommande") Integer idLigneCommande, @PathVariable("quantite") BigDecimal quantite);
 
     @GetMapping(APP_ROOT + "/commandesclients/{idCommandeClient}")
     ResponseEntity<CommandeClientDto> findById(@PathVariable("idCommandeClient") Integer id);

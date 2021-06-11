@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -112,6 +113,44 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         commandeClient.setEtatCommande(etatCommande);
 
         return CommandeClientDto.fromEntity(commandeClientRepository.save(CommandeClientDto.toEntity(commandeClient)));
+    }
+
+    @Override
+    public CommandeClientDto updateQuantiteCommande(Integer idCommande, Integer idLigneCommande, BigDecimal quantite) {
+        if (idCommande == null) {
+            log.error("commande client ID est NULL");
+            throw new InvalidOperationException("Impossible de modifier l'etat de commande avec un ID NULL", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        if (idLigneCommande == null) {
+            log.error("L'ID Ligne commande client is NULL");
+            throw new InvalidOperationException("Impossible de modifier l'etat de commande avec un ID de Ligne de commande NULL", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        if (quantite == null || quantite.compareTo(BigDecimal.ZERO) == 0) {
+            log.error("L'ID Ligne commande client is NULL");
+            throw new InvalidOperationException("Impossible de modifier l'etat de commande avec une quantité NULL ou Zero", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        CommandeClientDto commandeClient = findById(idCommande);
+
+        if (commandeClient.isCommandeLivree()) {
+            throw new InvalidOperationException("Impossible de modifier la commande lorsqu'elle est livree", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        Optional<LigneCommandeClient> ligneCommandeClientOptional = ligneCommandeClientRepository.findById(idLigneCommande);
+
+        if (ligneCommandeClientOptional.isEmpty()) {
+            throw new EntityNotFoundException("Aucun ligne commande client n'a ete trouver avec l'ID " + idLigneCommande, ErrorCodes.COMMANDE_CLIENT_NOT_FOUND);
+        }
+
+        LigneCommandeClient ligneCommandeClient = ligneCommandeClientOptional.get();
+
+        ligneCommandeClient.setQuantite(quantite);
+
+        ligneCommandeClientRepository.save(ligneCommandeClient);
+
+        return commandeClient;
     }
 
     @Override
