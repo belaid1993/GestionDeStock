@@ -1,5 +1,6 @@
 package com.belaid.gestionDeStock.services.impl;
 
+import com.belaid.gestionDeStock.dto.ClientDto;
 import com.belaid.gestionDeStock.dto.CommandeClientDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
@@ -151,6 +152,39 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         ligneCommandeClientRepository.save(ligneCommandeClient);
 
         return commandeClient;
+    }
+
+    @Override
+    public CommandeClientDto updateClient(Integer idCommande, Integer idClient) {
+
+        if (idCommande == null) {
+            log.error("commande client ID est NULL");
+            throw new InvalidOperationException("Impossible de modifier l'etat de commande avec un ID NULL", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        if (idClient == null) {
+            log.error("L'ID Ligne commande client is NULL");
+            throw new InvalidOperationException("Impossible de modifier l'etat de commande avec un ID de client NULL", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        CommandeClientDto commandeClient = findById(idCommande);
+
+        if (commandeClient.isCommandeLivree()) {
+            throw new InvalidOperationException("Impossible de modifier la commande lorsqu'elle est livree", ErrorCodes.COMMANDE_CLIENT_NON_MODIFIABLE);
+        }
+
+        Optional<Client> clientOptional = clientRepository.findById(idClient);
+
+        if (clientOptional.isEmpty()) {
+            throw new EntityNotFoundException("Aucun client n'a ete trouver avec l'ID " + idClient, ErrorCodes.CLIENT_NOT_FOUND);
+
+        }
+
+        commandeClient.setClient(ClientDto.fromEntity(clientOptional.get()));
+
+        return CommandeClientDto.fromEntity(
+                commandeClientRepository.save(CommandeClientDto.toEntity(commandeClient))
+        );
     }
 
     @Override

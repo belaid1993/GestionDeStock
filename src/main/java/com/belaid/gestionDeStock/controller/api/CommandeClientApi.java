@@ -17,11 +17,14 @@ public interface CommandeClientApi {
     @PostMapping(APP_ROOT + "/commandesclients/create")
     ResponseEntity<CommandeClientDto> save(@RequestBody CommandeClientDto dto);
 
-    @PatchMapping(APP_ROOT + "/commandesclients/update/{idCommande}/{etatCommande}")
+    @PatchMapping(APP_ROOT + "/commandesclients/update/etat/{idCommande}/{etatCommande}")
     ResponseEntity<CommandeClientDto> updateEtatCommande(@PathVariable("idCommande") Integer idCommande, @PathVariable("etatCommande") EtatCommande etatCommande);
 
-    @PatchMapping(APP_ROOT + "/commandesclients/update/{idCommande}/{idLigneCommande}/{quantite}")
+    @PatchMapping(APP_ROOT + "/commandesclients/update/quantite/{idCommande}/{idLigneCommande}/{quantite}")
     ResponseEntity<CommandeClientDto> updateQuantiteCommande(@PathVariable("idCommande") Integer idCommande, @PathVariable("idLigneCommande") Integer idLigneCommande, @PathVariable("quantite") BigDecimal quantite);
+
+    @PatchMapping(APP_ROOT + "/commandesclients/update/client/{idCommande}/{idClient}")
+    ResponseEntity<CommandeClientDto> updateClient(@PathVariable("idCommande") Integer idCommande,@PathVariable("idClient") Integer idClient);
 
     @GetMapping(APP_ROOT + "/commandesclients/{idCommandeClient}")
     ResponseEntity<CommandeClientDto> findById(@PathVariable("idCommandeClient") Integer id);
