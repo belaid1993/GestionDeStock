@@ -1,8 +1,7 @@
 package com.belaid.gestionDeStock.dto;
 
-import com.belaid.gestionDeStock.model.Client;
 import com.belaid.gestionDeStock.model.CommandeClient;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.belaid.gestionDeStock.model.EtatCommande;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,6 +20,8 @@ public class CommandeClientDto {
 
     private ClientDto client;
 
+    private EtatCommande etatCommande;
+
     private Integer idEntreprise;
 
     private List<LigneCommandeClientDto> ligneCommandeClients;
@@ -35,6 +36,7 @@ public class CommandeClientDto {
                 .code(commandeClient.getCode())
                 .dateCommande(commandeClient.getDateCommande())
                 .client(ClientDto.fromEntity(commandeClient.getClient()))
+                .etatCommande(commandeClient.getEtatCommande())
                 .idEntreprise(commandeClient.getIdEntreprise())
                 .build();
     }
@@ -48,10 +50,15 @@ public class CommandeClientDto {
         commandeClient.setId(commandeClientDto.getId());
         commandeClient.setCode(commandeClientDto.getCode());
         commandeClient.setDateCommande(commandeClientDto.getDateCommande());
+        commandeClient.setEtatCommande(commandeClientDto.getEtatCommande());
         commandeClient.setIdEntreprise(commandeClientDto.getIdEntreprise());
         commandeClient.setClient(ClientDto.toEntity(commandeClientDto.getClient()));
 
         return commandeClient;
 
+    }
+
+    public boolean isCommandeLivree() {
+        return EtatCommande.LIVREE.equals(this.etatCommande);
     }
 }

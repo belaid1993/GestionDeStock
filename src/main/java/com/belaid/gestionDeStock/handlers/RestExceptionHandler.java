@@ -3,6 +3,7 @@ package com.belaid.gestionDeStock.handlers;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
+import com.belaid.gestionDeStock.exception.InvalidOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +21,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDto> handleException(EntityNotFoundException exception, WebRequest webRequest) {
 
         final HttpStatus notFound = HttpStatus.NOT_FOUND;
+        final ErrorDto errorDto = ErrorDto.builder()
+                .code(exception.getErrorCodes())
+                .httpCode(notFound.value())
+                .message(exception.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDto, notFound);
+    }
+
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ErrorDto> handleException(InvalidOperationException exception, WebRequest webRequest) {
+
+        final HttpStatus notFound = HttpStatus.BAD_REQUEST;
         final ErrorDto errorDto = ErrorDto.builder()
                 .code(exception.getErrorCodes())
                 .httpCode(notFound.value())

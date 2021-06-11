@@ -2,6 +2,7 @@ package com.belaid.gestionDeStock.controller;
 
 import com.belaid.gestionDeStock.controller.api.CommandeClientApi;
 import com.belaid.gestionDeStock.dto.CommandeClientDto;
+import com.belaid.gestionDeStock.model.EtatCommande;
 import com.belaid.gestionDeStock.services.CommandeClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class CommandeClientController implements CommandeClientApi {
     @Override
     public ResponseEntity<CommandeClientDto> save(CommandeClientDto dto) {
         return ResponseEntity.ok(commandeClientService.save(dto));
+    }
+
+    @Override
+    public ResponseEntity<CommandeClientDto> updateEtatCommande(Integer idCommande, EtatCommande etatCommande) {
+        return ResponseEntity.ok(commandeClientService.updateEtatCommande(idCommande, etatCommande));
     }
 
     @Override
