@@ -3,6 +3,7 @@ package com.belaid.gestionDeStock.services.impl;
 import com.belaid.gestionDeStock.dto.ArticleDto;
 import com.belaid.gestionDeStock.dto.ClientDto;
 import com.belaid.gestionDeStock.dto.CommandeClientDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeClientDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
@@ -199,6 +200,13 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         ligneCommandeClientRepository.deleteById(idLigneCommande);
 
         return commandeClient;
+    }
+
+    @Override
+    public List<LigneCommandeClientDto> findAllLignesCommandesClientByCommandeClientId(Integer idCommande) {
+        return ligneCommandeClientRepository.findAllByCommandeClientId(idCommande).stream()
+                .map(LigneCommandeClientDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override

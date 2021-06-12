@@ -1,7 +1,9 @@
 package com.belaid.gestionDeStock.controller.api;
 
 import com.belaid.gestionDeStock.dto.CommandeClientDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeClientDto;
 import com.belaid.gestionDeStock.model.EtatCommande;
+import com.belaid.gestionDeStock.model.LigneCommandeClient;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,9 @@ public interface CommandeClientApi {
 
     @DeleteMapping(APP_ROOT + "/commandesclients/delete/article/{idCommande}/{idLigneCommande}")
     ResponseEntity<CommandeClientDto> deleteArticle(@PathVariable("idCommande") Integer idCommande, @PathVariable("idLigneCommande") Integer idLigneCommande);
+
+    @GetMapping(APP_ROOT + "/commandesclients/ligneCommande/{idCommande}")
+    ResponseEntity<List<LigneCommandeClientDto>> findAllLignesCommandesClientByCommandeClientId(@PathVariable("idCommande") Integer idCommande);
 
     @GetMapping(APP_ROOT + "/commandesclients/{idCommandeClient}")
     ResponseEntity<CommandeClientDto> findById(@PathVariable("idCommandeClient") Integer id);

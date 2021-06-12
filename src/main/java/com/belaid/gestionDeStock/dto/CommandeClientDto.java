@@ -2,6 +2,7 @@ package com.belaid.gestionDeStock.dto;
 
 import com.belaid.gestionDeStock.model.CommandeClient;
 import com.belaid.gestionDeStock.model.EtatCommande;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,6 +25,7 @@ public class CommandeClientDto {
 
     private Integer idEntreprise;
 
+    @JsonIgnore
     private List<LigneCommandeClientDto> ligneCommandeClients;
 
     public static CommandeClientDto fromEntity(CommandeClient commandeClient) {

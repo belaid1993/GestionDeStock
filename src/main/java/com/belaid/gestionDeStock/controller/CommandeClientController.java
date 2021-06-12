@@ -2,6 +2,7 @@ package com.belaid.gestionDeStock.controller;
 
 import com.belaid.gestionDeStock.controller.api.CommandeClientApi;
 import com.belaid.gestionDeStock.dto.CommandeClientDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeClientDto;
 import com.belaid.gestionDeStock.model.EtatCommande;
 import com.belaid.gestionDeStock.services.CommandeClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class CommandeClientController implements CommandeClientApi {
     @Override
     public ResponseEntity<CommandeClientDto> deleteArticle(Integer idCommande, Integer idLigneCommande) {
         return ResponseEntity.ok(commandeClientService.deleteArticle(idCommande, idLigneCommande));
+    }
+
+    @Override
+    public ResponseEntity<List<LigneCommandeClientDto>> findAllLignesCommandesClientByCommandeClientId(Integer idCommande) {
+        return ResponseEntity.ok(commandeClientService.findAllLignesCommandesClientByCommandeClientId(idCommande));
     }
 
     @Override
