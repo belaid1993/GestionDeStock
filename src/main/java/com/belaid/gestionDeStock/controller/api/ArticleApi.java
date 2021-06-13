@@ -1,6 +1,9 @@
 package com.belaid.gestionDeStock.controller.api;
 
 import com.belaid.gestionDeStock.dto.ArticleDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeClientDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeFournisseurDto;
+import com.belaid.gestionDeStock.dto.LigneVenteDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,6 +51,17 @@ public interface ArticleApi {
     })
     List<ArticleDto> findAll();
 
+    @GetMapping(value = APP_ROOT + "/articles/historique/vente/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneVenteDto> findHistoriqueVentes(@PathVariable("idArticle") Integer idArticle);
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/commandeclient/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneCommandeClientDto> findHistoriqueCommandeClient(@PathVariable("idArticle") Integer idArticle);
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/commandefournisseur/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(@PathVariable("idArticle") Integer idArticle);
+
+    @GetMapping(value = APP_ROOT + "/articles/filter/category/{idCategory}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ArticleDto> findAllArticleByIdCategory(@PathVariable("idCategory") Integer idCategory);
 
     @DeleteMapping(value = APP_ROOT + "/articles/delete/{idArticle}")
     @ApiOperation(value = "Supprimer un article", notes = "Cette methode permet de supprimer un article par ID")

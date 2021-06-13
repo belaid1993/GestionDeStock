@@ -1,11 +1,17 @@
 package com.belaid.gestionDeStock.services.impl;
 
 import com.belaid.gestionDeStock.dto.ArticleDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeClientDto;
+import com.belaid.gestionDeStock.dto.LigneCommandeFournisseurDto;
+import com.belaid.gestionDeStock.dto.LigneVenteDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
 import com.belaid.gestionDeStock.model.Article;
 import com.belaid.gestionDeStock.repository.ArticleRepository;
+import com.belaid.gestionDeStock.repository.LigneCommandeClientRepository;
+import com.belaid.gestionDeStock.repository.LigneCommandeFournisseurRepository;
+import com.belaid.gestionDeStock.repository.LigneVenteRepository;
 import com.belaid.gestionDeStock.services.ArticleService;
 import com.belaid.gestionDeStock.validator.ArticleValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +28,16 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository articleRepository;
+    private LigneVenteRepository venteRepository;
+    private LigneCommandeFournisseurRepository commandeFournisseurRepository;
+    private LigneCommandeClientRepository commandeClientRepository;
 
     @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, LigneVenteRepository venteRepository, LigneCommandeFournisseurRepository commandeFournisseurRepository, LigneCommandeClientRepository commandeClientRepository) {
         this.articleRepository = articleRepository;
+        this.venteRepository = venteRepository;
+        this.commandeFournisseurRepository = commandeFournisseurRepository;
+        this.commandeClientRepository = commandeClientRepository;
     }
 
     @Override
@@ -73,6 +85,34 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleDto> findAll() {
         return articleRepository.findAll().stream()
+                .map(ArticleDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LigneVenteDto> findHistoriqueVentes(Integer idArticle) {
+        return venteRepository.findAllByArticleId(idArticle).stream()
+                .map(LigneVenteDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LigneCommandeClientDto> findHistoriqueCommandeClient(Integer idArticle) {
+        return commandeClientRepository.findAllByCommandeClientId(idArticle).stream()
+                .map(LigneCommandeClientDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(Integer idArticle) {
+        return commandeFournisseurRepository.findAllByCommandeFournisseurId(idArticle).stream()
+                .map(LigneCommandeFournisseurDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ArticleDto> findAllArticleByIdCategory(Integer idCategory) {
+        return articleRepository.findAllByCategoryId(idCategory).stream()
                 .map(ArticleDto::fromEntity)
                 .collect(Collectors.toList());
     }
