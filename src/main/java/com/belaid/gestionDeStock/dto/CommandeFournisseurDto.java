@@ -1,6 +1,7 @@
 package com.belaid.gestionDeStock.dto;
 
 import com.belaid.gestionDeStock.model.CommandeFournisseur;
+import com.belaid.gestionDeStock.model.EtatCommande;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class CommandeFournisseurDto {
 
     private FournisseurDto fournisseur;
 
+    private EtatCommande etatCommande;
+
     private Integer idEntreprise;
 
     @JsonIgnore
@@ -35,6 +38,7 @@ public class CommandeFournisseurDto {
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
                 .idEntreprise(commandeFournisseur.getIdEntreprise())
+                .etatCommande(commandeFournisseur.getEtatCommande())
                 .fournisseur(FournisseurDto.fromEntity(commandeFournisseur.getFournisseur()))
                 .build();
     }
@@ -49,8 +53,13 @@ public class CommandeFournisseurDto {
         commandeFournisseur.setCode(commandeFournisseurDto.getCode());
         commandeFournisseur.setIdEntreprise(commandeFournisseur.getIdEntreprise());
         commandeFournisseur.setDateCommande(commandeFournisseurDto.getDateCommande());
+        commandeFournisseur.setEtatCommande(commandeFournisseurDto.getEtatCommande());
         commandeFournisseur.setFournisseur(FournisseurDto.toEntity(commandeFournisseurDto.getFournisseur()));
 
         return commandeFournisseur;
+    }
+
+    public boolean isCommandeLivree() {
+        return EtatCommande.LIVREE.equals(this.etatCommande);
     }
 }
