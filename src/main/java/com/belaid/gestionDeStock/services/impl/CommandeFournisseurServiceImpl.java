@@ -1,9 +1,6 @@
 package com.belaid.gestionDeStock.services.impl;
 
-import com.belaid.gestionDeStock.dto.ArticleDto;
-import com.belaid.gestionDeStock.dto.CommandeFournisseurDto;
-import com.belaid.gestionDeStock.dto.FournisseurDto;
-import com.belaid.gestionDeStock.dto.LigneCommandeFournisseurDto;
+import com.belaid.gestionDeStock.dto.*;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
@@ -14,6 +11,7 @@ import com.belaid.gestionDeStock.repository.CommandeFournisseurRepository;
 import com.belaid.gestionDeStock.repository.FournisseurRepository;
 import com.belaid.gestionDeStock.repository.LigneCommandeFournisseurRepository;
 import com.belaid.gestionDeStock.services.CommandeFournisseurService;
+import com.belaid.gestionDeStock.services.MvtStkService;
 import com.belaid.gestionDeStock.validator.ArticleValidator;
 import com.belaid.gestionDeStock.validator.CommandeFournisseurValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,18 +29,20 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class CommandeFournisseurServiceImpl implements CommandeFournisseurService {
-
     private CommandeFournisseurRepository commandeFournisseurRepository;
+
     private LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository;
     private FournisseurRepository fournisseurRepository;
     private ArticleRepository articleRepository;
+    private MvtStkService mvtStkService;
 
     @Autowired
-    public CommandeFournisseurServiceImpl(CommandeFournisseurRepository commandeFournisseurRepository, LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository, FournisseurRepository fournisseurRepository, ArticleRepository articleRepository) {
+    public CommandeFournisseurServiceImpl(CommandeFournisseurRepository commandeFournisseurRepository, LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository, FournisseurRepository fournisseurRepository, ArticleRepository articleRepository, MvtStkService mvtStkService) {
         this.commandeFournisseurRepository = commandeFournisseurRepository;
         this.ligneCommandeFournisseurRepository = ligneCommandeFournisseurRepository;
         this.fournisseurRepository = fournisseurRepository;
         this.articleRepository = articleRepository;
+        this.mvtStkService = mvtStkService;
     }
 
     @Override
@@ -105,8 +106,11 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         CommandeFournisseurDto commandeFournisseur = checkEtatCommande(idCommande);
 
         commandeFournisseur.setEtatCommande(etatCommande);
-
-        return CommandeFournisseurDto.fromEntity(commandeFournisseurRepository.save(CommandeFournisseurDto.toEntity(commandeFournisseur)));
+        CommandeFournisseur savedCommande = commandeFournisseurRepository.save(CommandeFournisseurDto.toEntity(commandeFournisseur));
+        if (commandeFournisseur.isCommandeLivree()) {
+            updateMvtStk(idCommande);
+        }
+        return CommandeFournisseurDto.fromEntity(savedCommande);
 
     }
 
@@ -279,5 +283,24 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
             throw new EntityNotFoundException("Aucun ligne commande fournisseur n'a ete trouver avec l'ID " + idLigneCommande, ErrorCodes.COMMANDE_FOURNISSEUR_NOT_FOUND);
         }
         return ligneCommandeFournisseurOptional;
+    }
+
+    private void updateMvtStk(Integer idCommande) {
+        List<LigneCommandeFournisseur> ligneCommandeFournisseur = ligneCommandeFournisseurRepository.findAllByCommandeFournisseurId(idCommande);
+        ligneCommandeFournisseur.forEach(lig -> {
+            effectuerEntree(lig);
+        });
+    }
+
+    private void effectuerEntree(LigneCommandeFournisseur lig) {
+        MvtStkDto mvtStkDto = MvtStkDto.builder()
+                .article(ArticleDto.fromEntity(lig.getArticle()))
+                .dateMvt(Instant.now())
+                .typeMvt(TypeMvt.ENTREE)
+                .sourceMvt(SourceMvtStk.COMMANDE_FOURNISSEUR)
+                .quantite(lig.getQuantite())
+                .idEntreprise(lig.getIdEntreprise())
+                .build();
+        mvtStkService.entreeStock(mvtStkDto);
     }
 }

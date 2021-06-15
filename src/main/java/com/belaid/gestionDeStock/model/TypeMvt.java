@@ -1,5 +1,5 @@
 package com.belaid.gestionDeStock.model;
 
 public enum TypeMvt {
-    ENTREE,SORTIE
+    ENTREE, SORTIE, CORRECTION_POS, CORRECTION_NEG
 }

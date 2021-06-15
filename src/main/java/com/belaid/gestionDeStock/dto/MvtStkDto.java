@@ -2,6 +2,7 @@ package com.belaid.gestionDeStock.dto;
 
 
 import com.belaid.gestionDeStock.model.MvtStk;
+import com.belaid.gestionDeStock.model.SourceMvtStk;
 import com.belaid.gestionDeStock.model.TypeMvt;
 import lombok.Builder;
 import lombok.Data;
@@ -23,9 +24,11 @@ public class MvtStkDto {
 
     private TypeMvt typeMvt;
 
+    private SourceMvtStk sourceMvt;
+
     private Integer idEntreprise;
 
-    public MvtStkDto fromEntity(MvtStk mvtStk) {
+    public static MvtStkDto fromEntity(MvtStk mvtStk) {
         if (mvtStk == null) {
             return null;
         }
@@ -36,11 +39,12 @@ public class MvtStkDto {
                 .quantite(mvtStk.getQuantite())
                 .article(ArticleDto.fromEntity(mvtStk.getArticle()))
                 .typeMvt(mvtStk.getTypeMvt())
+                .sourceMvt(mvtStk.getSourceMvt())
                 .idEntreprise(mvtStk.getIdEntreprise())
                 .build();
     }
 
-    public MvtStk toEntity(MvtStkDto mvtStkDto) {
+    public static MvtStk toEntity(MvtStkDto mvtStkDto) {
         if (mvtStkDto == null) {
             return null;
         }
@@ -51,6 +55,7 @@ public class MvtStkDto {
         mvtStk.setArticle(ArticleDto.toEntity(mvtStkDto.getArticle()));
         mvtStk.setDateMvt(mvtStkDto.getDateMvt());
         mvtStk.setTypeMvt(mvtStkDto.getTypeMvt());
+        mvtStk.setSourceMvt(mvtStkDto.getSourceMvt());
         mvtStk.setIdEntreprise(mvtStkDto.getIdEntreprise());
 
         return mvtStk;
