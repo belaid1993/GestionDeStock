@@ -7,6 +7,7 @@ import com.belaid.gestionDeStock.dto.VentesDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
+import com.belaid.gestionDeStock.exception.InvalidOperationException;
 import com.belaid.gestionDeStock.model.*;
 import com.belaid.gestionDeStock.repository.ArticleRepository;
 import com.belaid.gestionDeStock.repository.LigneVenteRepository;
@@ -33,7 +34,6 @@ public class VentesServiceImpl implements VentesService {
     private VentesRepository ventesRepository;
     private LigneVenteRepository ligneVenteRepository;
     private MvtStkService mvtStkService;
-
 
     @Autowired
     public VentesServiceImpl(ArticleRepository articleRepository, VentesRepository ventesRepository, LigneVenteRepository ligneVenteRepository, MvtStkService mvtStkService) {
@@ -110,8 +110,13 @@ public class VentesServiceImpl implements VentesService {
     @Override
     public void delete(Integer id) {
         if (id == null) {
-            log.error("Ventes ID is NULL");
+            log.error("Vente ID is NULL");
             return;
+        }
+        List<LigneVente> ligneVentes = ligneVenteRepository.findAllByVenteId(id);
+        if (!ligneVentes.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer une vente ...",
+                    ErrorCodes.VENTE_ALREADY_IN_USE);
         }
         ventesRepository.deleteById(id);
     }

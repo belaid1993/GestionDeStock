@@ -4,7 +4,10 @@ import com.belaid.gestionDeStock.dto.CategoryDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
+import com.belaid.gestionDeStock.exception.InvalidOperationException;
+import com.belaid.gestionDeStock.model.Article;
 import com.belaid.gestionDeStock.model.Category;
+import com.belaid.gestionDeStock.repository.ArticleRepository;
 import com.belaid.gestionDeStock.repository.CategoryRepository;
 import com.belaid.gestionDeStock.services.CategoryService;
 import com.belaid.gestionDeStock.validator.CategoryValidator;
@@ -22,10 +25,12 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
+    private ArticleRepository articleRepository;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ArticleRepository articleRepository) {
         this.categoryRepository = categoryRepository;
+        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -78,9 +83,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Integer id) {
         if (id == null) {
-            log.error("Category ID est null");
+            log.error("Category ID is null");
             return;
         }
-        categoryRepository.findById(id);
+        List<Article> articles = articleRepository.findAllByCategoryId(id);
+        if (!articles.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer cette categorie qui est deja utilise",
+                    ErrorCodes.CATEGORY_ALREADY_IN_USE);
+        }
+        categoryRepository.deleteById(id);
     }
 }

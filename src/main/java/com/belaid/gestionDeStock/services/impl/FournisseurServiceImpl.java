@@ -4,7 +4,10 @@ import com.belaid.gestionDeStock.dto.FournisseurDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
+import com.belaid.gestionDeStock.exception.InvalidOperationException;
+import com.belaid.gestionDeStock.model.CommandeClient;
 import com.belaid.gestionDeStock.model.Fournisseur;
+import com.belaid.gestionDeStock.repository.CommandeFournisseurRepository;
 import com.belaid.gestionDeStock.repository.FournisseurRepository;
 import com.belaid.gestionDeStock.services.FournisseurService;
 import com.belaid.gestionDeStock.validator.FournisseurValidator;
@@ -21,10 +24,12 @@ import java.util.stream.Collectors;
 public class FournisseurServiceImpl implements FournisseurService {
 
     private FournisseurRepository fournisseurRepository;
+    private CommandeFournisseurRepository commandeFournisseurRepository;
 
     @Autowired
-    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository) {
+    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository, CommandeFournisseurRepository commandeFournisseurRepository) {
         this.fournisseurRepository = fournisseurRepository;
+        this.commandeFournisseurRepository = commandeFournisseurRepository;
     }
 
     @Override
@@ -64,10 +69,14 @@ public class FournisseurServiceImpl implements FournisseurService {
     @Override
     public void delete(Integer id) {
         if (id == null) {
-            log.error("Fournisseur ID est null");
+            log.error("Fournisseur ID is null");
             return;
         }
-
+        List<CommandeClient> commandeFournisseur = commandeFournisseurRepository.findAllByFournisseurId(id);
+        if (!commandeFournisseur.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer un fournisseur qui a deja des commandes",
+                    ErrorCodes.FOURNISSEUR_ALREADY_IN_USE);
+        }
         fournisseurRepository.deleteById(id);
     }
 }

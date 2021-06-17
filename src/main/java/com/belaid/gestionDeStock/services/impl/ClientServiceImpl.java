@@ -4,8 +4,11 @@ import com.belaid.gestionDeStock.dto.ClientDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
+import com.belaid.gestionDeStock.exception.InvalidOperationException;
 import com.belaid.gestionDeStock.model.Client;
+import com.belaid.gestionDeStock.model.CommandeClient;
 import com.belaid.gestionDeStock.repository.ClientRepository;
+import com.belaid.gestionDeStock.repository.CommandeClientRepository;
 import com.belaid.gestionDeStock.services.ClientService;
 import com.belaid.gestionDeStock.validator.ClientValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +24,12 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
+    private CommandeClientRepository commandeClientRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, CommandeClientRepository commandeClientRepository) {
         this.clientRepository = clientRepository;
+        this.commandeClientRepository = commandeClientRepository;
     }
 
     @Override
@@ -64,8 +69,13 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void delete(Integer id) {
         if (id == null) {
-            log.error("client ID est null");
+            log.error("Client ID is null");
             return;
+        }
+        List<CommandeClient> commandeClients = commandeClientRepository.findAllByClientId(id);
+        if (!commandeClients.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer un client qui a deja des commande clients",
+                    ErrorCodes.CLIENT_ALREADY_IN_USE);
         }
         clientRepository.deleteById(id);
     }

@@ -7,7 +7,11 @@ import com.belaid.gestionDeStock.dto.LigneVenteDto;
 import com.belaid.gestionDeStock.exception.EntityNotFoundException;
 import com.belaid.gestionDeStock.exception.ErrorCodes;
 import com.belaid.gestionDeStock.exception.InvalidEntityException;
+import com.belaid.gestionDeStock.exception.InvalidOperationException;
 import com.belaid.gestionDeStock.model.Article;
+import com.belaid.gestionDeStock.model.LigneCommandeClient;
+import com.belaid.gestionDeStock.model.LigneCommandeFournisseur;
+import com.belaid.gestionDeStock.model.LigneVente;
 import com.belaid.gestionDeStock.repository.ArticleRepository;
 import com.belaid.gestionDeStock.repository.LigneCommandeClientRepository;
 import com.belaid.gestionDeStock.repository.LigneCommandeFournisseurRepository;
@@ -120,10 +124,23 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void delete(Integer id) {
         if (id == null) {
-            log.error("Article ID est null");
+            log.error("Article ID is null");
             return;
         }
+        List<LigneCommandeClient> ligneCommandeClients = commandeClientRepository.findAllByArticleId(id);
+        if (!ligneCommandeClients.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer un article deja utilise dans des commandes client", ErrorCodes.ARTICLE_ALREADY_IN_USE);
+        }
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = commandeFournisseurRepository.findAllByArticleId(id);
+        if (!ligneCommandeFournisseurs.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer un article deja utilise dans des commandes fournisseur",
+                    ErrorCodes.ARTICLE_ALREADY_IN_USE);
+        }
+        List<LigneVente> ligneVentes = venteRepository.findAllByArticleId(id);
+        if (!ligneVentes.isEmpty()) {
+            throw new InvalidOperationException("Impossible de supprimer un article deja utilise dans des ventes",
+                    ErrorCodes.ARTICLE_ALREADY_IN_USE);
+        }
         articleRepository.deleteById(id);
-
     }
 }
